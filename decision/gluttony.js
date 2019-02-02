@@ -42,7 +42,7 @@ export default (state) => {
 
                 if (path.length > 1) {
                     // first half of the game is full  of noobs. do not bother with gold if it is too far
-                    if (path.length < 20) {
+                    if (path.length < 12) {
 
                         if (!closestPath || path.length < closestPath.length) {
                             closestPath = path
@@ -60,9 +60,11 @@ export default (state) => {
             let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
 
             if (path.length > 1) {
+                if (path.length < 12) {
 
-                if (!closestPath || path.length < closestPath.length) {
-                    closestPath = path
+                    if (!closestPath || path.length < closestPath.length) {
+                        closestPath = path
+                    }
                 }
             }
         })
@@ -74,7 +76,9 @@ export default (state) => {
         let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
 
         if (path.length > 1) {
-            closestPath = path
+            if (path.length < 12) {
+                closestPath = path
+            }
         }
     }
 
@@ -252,17 +256,18 @@ function getValuablesFromBoard(state) {
 }
 
 function canEatStone(state) {
+
     const {snake, enemies} = state
 
-    if (snake.snakeLength < 5) return false
+    return snake.snakeLength >= 5
 
-    const nextSnakeLength = snake.snakeLength - 3
-
-    const longerEnemy = enemies
-        .filter(enemy => !enemy.isDead && !enemy.isSleep)
-        .find(enemy => enemy.snakeLength >= nextSnakeLength)
-
-    return !longerEnemy;
+    // const nextSnakeLength = snake.snakeLength - 3
+    //
+    // const longerEnemy = enemies
+    //     .filter(enemy => !enemy.isDead && !enemy.isSleep)
+    //     .find(enemy => enemy.snakeLength >= nextSnakeLength)
+    //
+    // return !longerEnemy;
 }
 
 function isCellValuable(state, cell, cellPosition) {
@@ -280,8 +285,8 @@ function isCellValuable(state, cell, cellPosition) {
 
         case ELEMENT.APPLE:
         case ELEMENT.GOLD:
-        case ELEMENT.FURY_PILL:
-        case ELEMENT.FLYING_PILL:
+        // case ELEMENT.FURY_PILL:
+        // case ELEMENT.FLYING_PILL:
 
             return isCellNotSurrounded(board, cellPosition)
     }

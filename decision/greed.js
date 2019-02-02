@@ -202,17 +202,18 @@ function getValuablesFromSurrounds(state, surrounds) {
 }
 
 function canEatStone(state) {
+
     const {snake, enemies} = state
 
-    if (snake.snakeLength < 5) return false
+    return snake.snakeLength >= 5
 
-    const nextSnakeLength = snake.snakeLength - 3
-
-    const longerEnemy = enemies
-        .filter(enemy => !enemy.isDead && !enemy.isSleep)
-        .find(enemy => enemy.snakeLength >= nextSnakeLength)
-
-    return !longerEnemy;
+    // const nextSnakeLength = snake.snakeLength - 3
+    //
+    // const longerEnemy = enemies
+    //     .filter(enemy => !enemy.isDead && !enemy.isSleep)
+    //     .find(enemy => enemy.snakeLength >= nextSnakeLength)
+    //
+    // return !longerEnemy;
 }
 
 function isCellValuable(state, cell, cellPosition) {
@@ -230,8 +231,8 @@ function isCellValuable(state, cell, cellPosition) {
 
         case ELEMENT.APPLE:
         case ELEMENT.GOLD:
-        case ELEMENT.FURY_PILL:
-        case ELEMENT.FLYING_PILL:
+        // case ELEMENT.FURY_PILL:
+        // case ELEMENT.FLYING_PILL:
 
             return isCellNotSurrounded(board, cellPosition)
     }

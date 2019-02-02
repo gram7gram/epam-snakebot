@@ -1,6 +1,6 @@
 import {ELEMENT, MAP} from "../constants";
 import PF from "pathfinding";
-import {getDirection, isSameVector, objectValues} from "../utils";
+import {getDirection, isSameVector} from "../utils";
 import pathfinder from "../pathfinder";
 
 export default (state) => {
@@ -40,9 +40,11 @@ export default (state) => {
             let path = pathfinder(grid, headPosition, neckOrTail.position);
 
             if (path.length > 1) {
+                if (path.length < 10) {
 
-                if (!closestPath || path.length < closestPath.length) {
-                    closestPath = path
+                    if (!closestPath || path.length < closestPath.length) {
+                        closestPath = path
+                    }
                 }
             }
         }

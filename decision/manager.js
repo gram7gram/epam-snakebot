@@ -2,6 +2,7 @@ import gluttony from './gluttony'
 import wrath from './wrath'
 import greed from './greed'
 import lust from './lust'
+import pride from './pride'
 import {COMMANDS} from "../constants";
 
 export function decide(state) {
@@ -48,6 +49,17 @@ export function decide(state) {
 
             if (!validate(state, decision)) {
                 console.error('Invalid gluttony decision', decision, JSON.parse(JSON.stringify(state)))
+            }
+        }
+    }
+
+    if (!decision) {
+        decision = pride(state)
+        if (decision) {
+            console.log('pride', decision)
+
+            if (!validate(state, decision)) {
+                console.error('Invalid pride decision', decision, JSON.parse(JSON.stringify(state)))
             }
         }
     }
