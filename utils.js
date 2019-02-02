@@ -339,7 +339,7 @@ export function getEnemyLength(state, head) {
 
     let first = items[0].item
     let last = items[items.length - 1].item
-    if (objectValues(ELEMENT.ENEMY_HEADS).indexOf(first) === -1 || objectValues(ELEMENT.ENEMY_TAILS).indexOf(last) === -1) {
+    if (ELEMENT.ENEMY_HEADS.indexOf(first) === -1 || ELEMENT.ENEMY_TAILS.indexOf(last) === -1) {
         console.error('Invalid enemy ' + items.map(item => item.item).join(''))
     }
 
@@ -408,7 +408,7 @@ export function getEnemies(state) {
 }
 
 export function getSurround(board, position) {
-    return [
+    const directions =  [
         {
             direction: COMMANDS.LEFT,
             item: getElementByXY(board, {x: position.x - 1, y: position.y}),
@@ -430,6 +430,8 @@ export function getSurround(board, position) {
             position: {x: position.x, y: position.y + 1}
         },
     ];
+
+    return shuffle(directions)
 }
 
 export function isSameVector(vec1, vec2) {
@@ -437,3 +439,11 @@ export function isSameVector(vec1, vec2) {
 }
 
 export const cid = (length = 5) => Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(0, length);
+
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}

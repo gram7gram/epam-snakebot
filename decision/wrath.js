@@ -3,21 +3,21 @@ import PF from "pathfinding";
 import {getDirection, isSameVector, objectValues} from "../utils";
 import pathfinder from "../pathfinder";
 
-const HEADS = objectValues(ELEMENT.ENEMY_HEADS)
-
 export default (state) => {
 
-    const {snake: {headPosition, snakeLength}, enemies} = state
+    const {snake: {headPosition, snakeLength, isFury}, enemies} = state
+
+    if (!isFury) return null
 
     if (snakeLength < 10) {
         if (enemies.length === 1) {
             const lastEnemy = enemies[0]
 
             if (!canHuntSnake(state, lastEnemy)) {
-                return false
+                return null
             }
         } else {
-            return false
+            return null
         }
     }
 
@@ -32,7 +32,7 @@ export default (state) => {
 
     targets.forEach(enemy => {
 
-        const body = enemy.bodyPositions.filter(body => HEADS.indexOf(body.item) === -1)
+        const body = enemy.bodyPositions.filter(body => ELEMENT.ENEMY_HEADS.indexOf(body.item) === -1)
 
         const neckOrTail = body[0]
 
@@ -65,13 +65,9 @@ export default (state) => {
 
 function canHuntSnake(state, enemy) {
 
-    const {snake: {snakeLength, isFury}} = state
+    const {snake: {snakeLength}} = state
 
     if (enemy.isDead || enemy.isSleep || enemy.isFlying) return false
-
-    if (isFury) {
-        return !enemy.isFury
-    }
 
     return !enemy.isFury && enemy.snakeLength < snakeLength
 }

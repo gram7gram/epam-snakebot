@@ -9,12 +9,12 @@ describe("greed", () => {
     describe("getEnemiesInSurroundings", ()=> {
         it("should return 1 enemy when there is enemy in surroundings", ()=> {
             const board =
-                '******' +
-                '* ┌♣ *' +
-                '* │○ *' +
-                '* │  *' +
-                '* ¤  *' +
-                '******';
+                '☼☼☼☼☼☼' +
+                '☼ ┌♣ ☼' +
+                '☼ │○ ☼' +
+                '☼ │  ☼' +
+                '☼ ¤  ☼' +
+                '☼☼☼☼☼☼';
 
             const state = {
                 board,
@@ -38,12 +38,12 @@ describe("greed", () => {
 
         it("should return 3 enemies when there is enemy in surroundings", ()=> {
             const board =
-                '******' +
-                '* æ♣ *' +
-                '* ˄○˄*' +
-                '* ¤ ¤*' +
-                '*    *' +
-                '******';
+                '☼☼☼☼☼☼' +
+                '☼ æ♣ ☼' +
+                '☼ ˄○˄☼' +
+                '☼ ¤ ¤☼' +
+                '☼    ☼' +
+                '☼☼☼☼☼☼';
 
             const state = {
                 board,
@@ -67,12 +67,12 @@ describe("greed", () => {
 
         it("should return [] when there is no enemy in surroundings", ()=> {
             const board =
-                '******' +
-                '*○   *' +
-                '*    *' +
-                '* ┌♣ *' +
-                '* ¤  *' +
-                '******';
+                '☼☼☼☼☼☼' +
+                '☼○   ☼' +
+                '☼    ☼' +
+                '☼ ┌♣ ☼' +
+                '☼ ¤  ☼' +
+                '☼☼☼☼☼☼';
 
             const state = {
                 board,

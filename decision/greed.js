@@ -99,12 +99,6 @@ function createWalkMatrixFromBoard(state) {
 
                 if (snake.isFury) {
                     switch (col) {
-                        case ELEMENT.ENEMY_HEAD_DOWN:
-                        case ELEMENT.ENEMY_HEAD_LEFT:
-                        case ELEMENT.ENEMY_HEAD_RIGHT:
-                        case ELEMENT.ENEMY_HEAD_UP:
-                        case ELEMENT.ENEMY_HEAD_DEAD:
-                        case ELEMENT.ENEMY_HEAD_SLEEP:
                         case ELEMENT.ENEMY_TAIL_END_DOWN:
                         case ELEMENT.ENEMY_TAIL_END_LEFT:
                         case ELEMENT.ENEMY_TAIL_END_UP:
@@ -129,12 +123,6 @@ function createWalkMatrixFromBoard(state) {
             if (currentValue === null) {
                 if (snake.isFlying) {
                     switch (col) {
-                        case ELEMENT.ENEMY_HEAD_DOWN:
-                        case ELEMENT.ENEMY_HEAD_LEFT:
-                        case ELEMENT.ENEMY_HEAD_RIGHT:
-                        case ELEMENT.ENEMY_HEAD_UP:
-                        case ELEMENT.ENEMY_HEAD_DEAD:
-                        case ELEMENT.ENEMY_HEAD_SLEEP:
                         case ELEMENT.ENEMY_TAIL_END_DOWN:
                         case ELEMENT.ENEMY_TAIL_END_LEFT:
                         case ELEMENT.ENEMY_TAIL_END_UP:
@@ -155,31 +143,6 @@ function createWalkMatrixFromBoard(state) {
                     }
                 }
             }
-
-            // if (currentValue === null) {
-            //
-            //     if (snake.snakeLength > 2) {
-            //
-            //         //eat yourself
-            //
-            //         switch (col) {
-            //             case ELEMENT.TAIL_END_DOWN:
-            //             case ELEMENT.TAIL_END_LEFT:
-            //             case ELEMENT.TAIL_END_UP:
-            //             case ELEMENT.TAIL_END_RIGHT:
-            //             case ELEMENT.BODY_HORIZONTAL:
-            //             case ELEMENT.BODY_VERTICAL:
-            //             case ELEMENT.BODY_LEFT_DOWN:
-            //             case ELEMENT.BODY_LEFT_UP:
-            //             case ELEMENT.BODY_RIGHT_DOWN:
-            //             case ELEMENT.BODY_RIGHT_UP:
-            //
-            //                 currentValue = MAP.WALKABLE;
-            //
-            //                 break;
-            //         }
-            //     }
-            // }
 
             if (getEnemiesInSurroundings(state, {x, y}).length > 0) {
                 currentValue = MAP.BLOCKED
@@ -335,6 +298,8 @@ export function getEnemiesInSurroundings(state, position) {
                     if (currentEnemy.snakeLength >= snakeLength) {
                         actualEnemies[currentEnemy.cid] = currentEnemy
                     }
+                } else {
+                    actualEnemies[currentEnemy.cid] = currentEnemy
                 }
             } else {
                 if (currentEnemy.snakeLength >= snakeLength) {

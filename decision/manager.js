@@ -1,16 +1,30 @@
 import gluttony from './gluttony'
 import wrath from './wrath'
 import greed from './greed'
+import lust from './lust'
 import {COMMANDS} from "../constants";
 
 export function decide(state) {
 
-    let decision = greed(state)
+    let decision = null;
+
+    decision = lust(state)
     if (decision) {
-        console.log('greed', decision)
+        console.log('lust', decision)
 
         if (!validate(state, decision)) {
-            console.error('Invalid greed decision', decision, JSON.parse(JSON.stringify(state)))
+            console.error('Invalid lust decision', decision, JSON.parse(JSON.stringify(state)))
+        }
+    }
+
+    if (!decision) {
+        decision = greed(state)
+        if (decision) {
+            console.log('greed', decision)
+
+            if (!validate(state, decision)) {
+                console.error('Invalid greed decision', decision, JSON.parse(JSON.stringify(state)))
+            }
         }
     }
 

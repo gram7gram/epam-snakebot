@@ -19,6 +19,8 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+import {objectValues} from "./utils";
+
 export const ELEMENT = {
     NONE: ' ',
     WALL: '☼',
@@ -47,12 +49,29 @@ export const ELEMENT = {
     TAIL_END_RIGHT: '╕',
     TAIL_INACTIVE: '~',
 
+    SNAKE_TAILS: {
+        TAIL_END_DOWN: '╙',
+        TAIL_END_LEFT: '╘',
+        TAIL_END_UP: '╓',
+        TAIL_END_RIGHT: '╕',
+        TAIL_INACTIVE: '~',
+    },
+
     BODY_HORIZONTAL: '═',
     BODY_VERTICAL: '║',
     BODY_LEFT_DOWN: '╗',
     BODY_LEFT_UP: '╝',
     BODY_RIGHT_DOWN: '╔',
     BODY_RIGHT_UP: '╚',
+    
+    SNAKE_BODIES: {
+        BODY_HORIZONTAL: '═',
+        BODY_VERTICAL: '║',
+        BODY_LEFT_DOWN: '╗',
+        BODY_LEFT_UP: '╝',
+        BODY_RIGHT_DOWN: '╔',
+        BODY_RIGHT_UP: '╚',
+    },
 
     // противник
     ENEMY_HEADS: {
@@ -105,6 +124,12 @@ export const ELEMENT = {
     ENEMY_TAIL_END_RIGHT: 'ö',
     ENEMY_TAIL_INACTIVE: '*',
 };
+
+ELEMENT.ENEMY_HEADS = objectValues(ELEMENT.ENEMY_HEADS)
+ELEMENT.ENEMY_BODIES = objectValues(ELEMENT.ENEMY_BODIES)
+ELEMENT.ENEMY_TAILS = objectValues(ELEMENT.ENEMY_TAILS)
+ELEMENT.SNAKE_BODIES = objectValues(ELEMENT.SNAKE_BODIES)
+ELEMENT.SNAKE_TAILS = objectValues(ELEMENT.SNAKE_TAILS)
 
 export const COMMANDS = {
     UP: 'UP',
