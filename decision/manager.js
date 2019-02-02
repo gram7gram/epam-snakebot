@@ -8,12 +8,14 @@ export function decide(state) {
 
     let decision = null;
 
-    decision = lust(state)
-    if (decision) {
-        console.log('lust', decision)
+    if (!decision) {
+        decision = lust(state)
+        if (decision) {
+            console.log('lust', decision)
 
-        if (!validate(state, decision)) {
-            console.error('Invalid lust decision', decision, JSON.parse(JSON.stringify(state)))
+            if (!validate(state, decision)) {
+                console.error('Invalid lust decision', decision, JSON.parse(JSON.stringify(state)))
+            }
         }
     }
 
