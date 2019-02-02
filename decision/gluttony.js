@@ -1,11 +1,11 @@
 import PF from "pathfinding";
 import pathfinder from "../pathfinder";
-import {getDirection, getSurround, isSameVector} from "../utils";
+import {getDirection, getSurround, isSameVector, objectValues} from "../utils";
 import {COMMANDS, ELEMENT, MAP} from "../constants";
 
 export default (state) => {
 
-    const {snake: {headPosition}} = state
+    const {snake: {headPosition, snakeLength}} = state
 
     state.snake.canEatStone = canEatStone(state)
 
@@ -35,29 +35,27 @@ export default (state) => {
     }
 
     if (!closestPath) {
+        if (snakeLength > 5) {
 
-        valuables.filter(item => item.item === ELEMENT.GOLD).forEach(item => {
-            let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
+            valuables.filter(item => item.item === ELEMENT.GOLD).forEach(item => {
+                let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
 
-            if (path.length > 1) {
-                // first half of the game is full  of noobs. do not bother with gold if it is too far
-                if (path.length < 20) {
+                if (path.length > 1) {
+                    // first half of the game is full  of noobs. do not bother with gold if it is too far
+                    if (path.length < 20) {
 
-                    if (!closestPath || path.length < closestPath.length) {
-                        closestPath = path
+                        if (!closestPath || path.length < closestPath.length) {
+                            closestPath = path
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
 
     }
 
     if (!closestPath) {
         valuables.forEach(item => {
-
-            // const currentSector = getCellSector(boardMatrix, item)
-            //
-            // if (currentSector === mostValuableSector) {
 
             let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
 
@@ -67,7 +65,6 @@ export default (state) => {
                     closestPath = path
                 }
             }
-            // }
         })
     }
 
@@ -208,29 +205,33 @@ function createWalkMatrixFromBoard(state) {
                 }
             }
 
-            if (currentValue === null) {
+            // if (currentValue === null) {
+            //
+            //     if (snake.snakeLength > 2) {
+            //
+            //         //eat yourself
+            //
+            //         switch (col) {
+            //             case ELEMENT.TAIL_END_DOWN:
+            //             case ELEMENT.TAIL_END_LEFT:
+            //             case ELEMENT.TAIL_END_UP:
+            //             case ELEMENT.TAIL_END_RIGHT:
+            //             case ELEMENT.BODY_HORIZONTAL:
+            //             case ELEMENT.BODY_VERTICAL:
+            //             case ELEMENT.BODY_LEFT_DOWN:
+            //             case ELEMENT.BODY_LEFT_UP:
+            //             case ELEMENT.BODY_RIGHT_DOWN:
+            //             case ELEMENT.BODY_RIGHT_UP:
+            //
+            //                 currentValue = MAP.WALKABLE;
+            //
+            //                 break;
+            //         }
+            //     }
+            // }
 
-                if (snake.snakeLength > 2) {
-
-                    //eat yourself
-
-                    switch (col) {
-                        case ELEMENT.TAIL_END_DOWN:
-                        case ELEMENT.TAIL_END_LEFT:
-                        case ELEMENT.TAIL_END_UP:
-                        case ELEMENT.TAIL_END_RIGHT:
-                        case ELEMENT.BODY_HORIZONTAL:
-                        case ELEMENT.BODY_VERTICAL:
-                        case ELEMENT.BODY_LEFT_DOWN:
-                        case ELEMENT.BODY_LEFT_UP:
-                        case ELEMENT.BODY_RIGHT_DOWN:
-                        case ELEMENT.BODY_RIGHT_UP:
-
-                            currentValue = MAP.WALKABLE;
-
-                            break;
-                    }
-                }
+            if (getEnemiesInSurroundings(state, {x, y}).length > 0) {
+                currentValue = MAP.BLOCKED
             }
 
             if (snake.previousHeadPosition) {
@@ -298,7 +299,7 @@ function canEatStone(state) {
         .filter(enemy => !enemy.isDead && !enemy.isSleep)
         .find(enemy => enemy.snakeLength >= nextSnakeLength)
 
-    return !!longerEnemy;
+    return !longerEnemy;
 }
 
 function isCellValuable(state, cell, cellPosition) {
@@ -358,4 +359,41 @@ function isCellNotSurrounded(board, cellPosition) {
     }
 
     return false
+}
+
+export function getEnemiesInSurroundings(state, position) {
+
+    const {board, enemies, snake: {isFury, snakeLength}} = state
+
+    const potentialEnemies = enemies.filter(enemy =>
+        !(enemy.isDead || enemy.isSleep || enemy.isFlying)
+    )
+
+    const actualEnemies = {}
+
+    getSurround(board, position).forEach(item => {
+
+        const currentEnemy = potentialEnemies.find(enemy =>
+            !!enemy.bodyPositions.find(body =>
+                isSameVector(body.position, item.position)
+            )
+        )
+
+        if (currentEnemy) {
+
+            if (isFury) {
+                if (currentEnemy.isFury) {
+                    if (currentEnemy.snakeLength >= snakeLength) {
+                        actualEnemies[currentEnemy.cid] = currentEnemy
+                    }
+                }
+            } else {
+                if (currentEnemy.snakeLength >= snakeLength) {
+                    actualEnemies[currentEnemy.cid] = currentEnemy
+                }
+            }
+        }
+    })
+
+    return objectValues(actualEnemies)
 }

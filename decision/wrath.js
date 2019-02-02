@@ -1,13 +1,25 @@
 import {ELEMENT, MAP} from "../constants";
 import PF from "pathfinding";
-import {getDirection, isSameVector} from "../utils";
+import {getDirection, isSameVector, objectValues} from "../utils";
 import pathfinder from "../pathfinder";
+
+const HEADS = objectValues(ELEMENT.ENEMY_HEADS)
 
 export default (state) => {
 
-    const {snake: {headPosition, snakeLength, isFury}, enemies} = state
+    const {snake: {headPosition, snakeLength}, enemies} = state
 
-    if (snakeLength < 5) return null
+    if (snakeLength < 10) {
+        if (enemies.length === 1) {
+            const lastEnemy = enemies[0]
+
+            if (!canHuntSnake(state, lastEnemy)) {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
 
     const walkingMatrix = createWalkMatrixFromBoard(state)
 
@@ -16,31 +28,24 @@ export default (state) => {
     let closestPath = null;
     let command = null
 
-    const targets = enemies.filter(enemy => {
-        if (enemy.isDead || enemy.isSleep || enemy.isFlying) return false
-
-        if (isFury) {
-            return !enemy.isFury
-        }
-
-        return enemy.snakeLength < snakeLength
-    })
+    const targets = enemies.filter(enemy => canHuntSnake(state, enemy))
 
     targets.forEach(enemy => {
 
-        enemy.bodyPositions
-            .filter(body => ELEMENT.ENEMY_HEADS[body.item] === undefined)
-            .forEach(body => {
+        const body = enemy.bodyPositions.filter(body => HEADS.indexOf(body.item) === -1)
 
-                let path = pathfinder(grid, headPosition, body.position);
+        const neckOrTail = body[0]
 
-                if (path.length > 1) {
+        if (neckOrTail) {
+            let path = pathfinder(grid, headPosition, neckOrTail.position);
 
-                    if (!closestPath || path.length < closestPath.length) {
-                        closestPath = path
-                    }
+            if (path.length > 1) {
+
+                if (!closestPath || path.length < closestPath.length) {
+                    closestPath = path
                 }
-            })
+            }
+        }
     })
 
     if (closestPath) {
@@ -56,6 +61,19 @@ export default (state) => {
     }
 
     return command
+}
+
+function canHuntSnake(state, enemy) {
+
+    const {snake: {snakeLength, isFury}} = state
+
+    if (enemy.isDead || enemy.isSleep || enemy.isFlying) return false
+
+    if (isFury) {
+        return !enemy.isFury
+    }
+
+    return !enemy.isFury && enemy.snakeLength < snakeLength
 }
 
 function createWalkMatrixFromBoard(state) {

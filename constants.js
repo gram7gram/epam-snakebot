@@ -75,20 +75,6 @@ export const ELEMENT = {
     ENEMY_HEAD_FLY: '♦',
     ENEMY_HEAD_SLEEP: 'ø',
 
-    ENEMY_TAILS: {
-        ENEMY_TAIL_END_DOWN: '¤',
-        ENEMY_TAIL_END_LEFT: '×',
-        ENEMY_TAIL_END_UP: 'æ',
-        ENEMY_TAIL_END_RIGHT: 'ö',
-        ENEMY_TAIL_INACTIVE: '*',
-    },
-
-    ENEMY_TAIL_END_DOWN: '¤',
-    ENEMY_TAIL_END_LEFT: '×',
-    ENEMY_TAIL_END_UP: 'æ',
-    ENEMY_TAIL_END_RIGHT: 'ö',
-    ENEMY_TAIL_INACTIVE: '*',
-
     ENEMY_BODIES: {
         ENEMY_BODY_HORIZONTAL: '─',
         ENEMY_BODY_VERTICAL: '│',
@@ -103,7 +89,21 @@ export const ELEMENT = {
     ENEMY_BODY_LEFT_DOWN: '┐',
     ENEMY_BODY_LEFT_UP: '┘',
     ENEMY_BODY_RIGHT_DOWN: '┌',
-    ENEMY_BODY_RIGHT_UP: '└'
+    ENEMY_BODY_RIGHT_UP: '└',
+
+    ENEMY_TAILS: {
+        ENEMY_TAIL_END_DOWN: '¤',
+        ENEMY_TAIL_END_LEFT: '×',
+        ENEMY_TAIL_END_UP: 'æ',
+        ENEMY_TAIL_END_RIGHT: 'ö',
+        ENEMY_TAIL_INACTIVE: '*',
+    },
+
+    ENEMY_TAIL_END_DOWN: '¤',
+    ENEMY_TAIL_END_LEFT: '×',
+    ENEMY_TAIL_END_UP: 'æ',
+    ENEMY_TAIL_END_RIGHT: 'ö',
+    ENEMY_TAIL_INACTIVE: '*',
 };
 
 export const COMMANDS = {

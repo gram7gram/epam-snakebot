@@ -373,6 +373,7 @@ export function getEnemies(state) {
                     const enemyPositions = getEnemyLength(state, head)
 
                     enemies[key] = {
+                        cid: cid(),
                         snakeLength: enemyPositions.count,
                         bodyPositions: enemyPositions.positions,
                         isSleep: false,
@@ -434,3 +435,5 @@ export function getSurround(board, position) {
 export function isSameVector(vec1, vec2) {
     return vec1.x === vec2.x && vec1.y === vec2.y
 }
+
+export const cid = (length = 5) => Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(0, length);
