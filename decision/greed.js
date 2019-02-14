@@ -3,6 +3,12 @@ import pathfinder from "../pathfinder";
 import {getDirection, getSurround, isSameVector, objectValues} from "../utils";
 import {COMMANDS, ELEMENT, MAP} from "../constants";
 
+/**
+ * Find valuables in surrounding cells and get direction to most valuable
+ *
+ * @param state
+ * @returns string
+ */
 export default (state) => {
 
     const {board, snake: {headPosition}} = state
@@ -144,8 +150,16 @@ function createWalkMatrixFromBoard(state) {
                 }
             }
 
-            if (getEnemiesInSurroundings(state, {x, y}).length > 0) {
-                currentValue = MAP.BLOCKED
+            if (ELEMENT.ENEMY_TAILS.indexOf(currentValue) !== -1) {
+                currentValue = MAP.WALKABLE
+            }
+
+            if (ELEMENT.ENEMY_BODIES.indexOf(currentValue) !== -1) {
+                currentValue = MAP.WALKABLE
+            }
+
+            if (ELEMENT.ENEMY_HEADS.indexOf(currentValue) !== -1) {
+                currentValue = MAP.WALKABLE
             }
 
             if (snake.previousHeadPosition) {
@@ -205,7 +219,7 @@ function canEatStone(state) {
 
     const {snake, enemies} = state
 
-    return snake.snakeLength >= 5
+    return snake.snakeLength >= 15
 
     // const nextSnakeLength = snake.snakeLength - 3
     //
@@ -231,7 +245,7 @@ function isCellValuable(state, cell, cellPosition) {
 
         case ELEMENT.APPLE:
         case ELEMENT.GOLD:
-        // case ELEMENT.FURY_PILL:
+        case ELEMENT.FURY_PILL:
         // case ELEMENT.FLYING_PILL:
 
             return isCellNotSurrounded(board, cellPosition)

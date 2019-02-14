@@ -137,6 +137,7 @@ export const COMMANDS = {
     LEFT: 'LEFT',
     RIGHT: 'RIGHT',
     ACT: 'ACT', // drop stone if any
+    DIE: 'ACT(0)',
 };
 
 export const SECTORS = {

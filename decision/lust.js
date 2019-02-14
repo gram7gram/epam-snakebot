@@ -3,6 +3,12 @@ import pathfinder from "../pathfinder";
 import {getDirection, getSurround, isSameVector} from "../utils";
 import {ELEMENT, MAP} from "../constants";
 
+/**
+ * Eat yourself if trapped
+ *
+ * @param state
+ * @returns string
+ */
 export default (state) => {
 
     const {snake: {headPosition}} = state

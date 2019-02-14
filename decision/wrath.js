@@ -3,23 +3,17 @@ import PF from "pathfinding";
 import {getDirection, isSameVector} from "../utils";
 import pathfinder from "../pathfinder";
 
+/**
+ * Attack nearby snakes
+ *
+ * @param state
+ * @returns string
+ */
 export default (state) => {
 
-    const {snake: {headPosition, snakeLength, isFury}, enemies} = state
+    const {snake: {headPosition, snakeLength}, enemies} = state
 
-    if (!isFury) return null
-
-    if (snakeLength < 10) {
-        if (enemies.length === 1) {
-            const lastEnemy = enemies[0]
-
-            if (!canHuntSnake(state, lastEnemy)) {
-                return null
-            }
-        } else {
-            return null
-        }
-    }
+    if (snakeLength < 15) return
 
     const walkingMatrix = createWalkMatrixFromBoard(state)
 
@@ -71,7 +65,7 @@ function canHuntSnake(state, enemy) {
 
     if (enemy.isDead || enemy.isSleep || enemy.isFlying) return false
 
-    return !enemy.isFury && enemy.snakeLength < snakeLength
+    return !enemy.isFury || enemy.snakeLength < snakeLength
 }
 
 function createWalkMatrixFromBoard(state) {

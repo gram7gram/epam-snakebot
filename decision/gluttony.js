@@ -3,6 +3,12 @@ import pathfinder from "../pathfinder";
 import {getDirection, getSurround, isSameVector, objectValues} from "../utils";
 import {COMMANDS, ELEMENT, MAP} from "../constants";
 
+/**
+ * Find valuables on all map and get direction to closest or most valuable
+ *
+ * @param state
+ * @returns string
+ */
 export default (state) => {
 
     const {snake: {headPosition, snakeLength}} = state
@@ -41,12 +47,8 @@ export default (state) => {
                 let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
 
                 if (path.length > 1) {
-                    // first half of the game is full  of noobs. do not bother with gold if it is too far
-                    if (path.length < 12) {
-
-                        if (!closestPath || path.length < closestPath.length) {
-                            closestPath = path
-                        }
+                    if (!closestPath || path.length < closestPath.length) {
+                        closestPath = path
                     }
                 }
             })
@@ -60,26 +62,11 @@ export default (state) => {
             let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
 
             if (path.length > 1) {
-                if (path.length < 12) {
-
-                    if (!closestPath || path.length < closestPath.length) {
-                        closestPath = path
-                    }
+                if (!closestPath || path.length < closestPath.length) {
+                    closestPath = path
                 }
             }
         })
-    }
-
-    if (!closestPath && valuables.length > 0) {
-        const item = valuables[0]
-
-        let path = pathfinder(grid, headPosition, {x: item.x, y: item.y});
-
-        if (path.length > 1) {
-            if (path.length < 12) {
-                closestPath = path
-            }
-        }
     }
 
     if (closestPath) {
@@ -259,7 +246,7 @@ function canEatStone(state) {
 
     const {snake, enemies} = state
 
-    return snake.snakeLength >= 5
+    return snake.snakeLength >= 15
 
     // const nextSnakeLength = snake.snakeLength - 3
     //
@@ -285,7 +272,7 @@ function isCellValuable(state, cell, cellPosition) {
 
         case ELEMENT.APPLE:
         case ELEMENT.GOLD:
-        // case ELEMENT.FURY_PILL:
+        case ELEMENT.FURY_PILL:
         // case ELEMENT.FLYING_PILL:
 
             return isCellNotSurrounded(board, cellPosition)
