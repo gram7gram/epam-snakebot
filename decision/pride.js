@@ -3,9 +3,8 @@ import {COMMANDS} from "../constants";
 /**
  * Die if no other behaviours are completed
  *
- * @param state
- * @returns string
+ * @returns string|null
  */
-export default (state) => {
+export default () => {
     return COMMANDS.DIE
 }

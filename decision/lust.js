@@ -7,7 +7,7 @@ import {ELEMENT, MAP} from "../constants";
  * Eat yourself if trapped
  *
  * @param state
- * @returns string
+ * @returns string|null
  */
 export default (state) => {
 

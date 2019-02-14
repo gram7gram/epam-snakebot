@@ -7,7 +7,7 @@ import {COMMANDS, ELEMENT, MAP} from "../constants";
  * Find valuables in surrounding cells and get direction to most valuable
  *
  * @param state
- * @returns string
+ * @returns string|null
  */
 export default (state) => {
 
@@ -217,17 +217,9 @@ function getValuablesFromSurrounds(state, surrounds) {
 
 function canEatStone(state) {
 
-    const {snake, enemies} = state
+    const {snake} = state
 
     return snake.snakeLength >= 15
-
-    // const nextSnakeLength = snake.snakeLength - 3
-    //
-    // const longerEnemy = enemies
-    //     .filter(enemy => !enemy.isDead && !enemy.isSleep)
-    //     .find(enemy => enemy.snakeLength >= nextSnakeLength)
-    //
-    // return !longerEnemy;
 }
 
 function isCellValuable(state, cell, cellPosition) {

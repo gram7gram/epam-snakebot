@@ -7,13 +7,13 @@ import pathfinder from "../pathfinder";
  * Attack nearby snakes
  *
  * @param state
- * @returns string
+ * @returns string|null
  */
 export default (state) => {
 
     const {snake: {headPosition, snakeLength}, enemies} = state
 
-    if (snakeLength < 15) return
+    if (snakeLength < 15) return null
 
     const walkingMatrix = createWalkMatrixFromBoard(state)
 
